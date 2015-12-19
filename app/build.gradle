@@ -1,0 +1,165 @@
+/*
+ * Copyright (c) 2015 Markus Poeschl - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ *
+ * Project: Callminder
+ */
+
+buildscript {
+
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'de.undercouch:gradle-download-task:2.1.0'
+    }
+}
+
+// Manifest version information!
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+
+apply plugin: 'com.android.application'
+
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+project.ext.set("gitSha", gitSha)
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "de.poeschl.apps.callminder"
+        minSdkVersion 15
+        targetSdkVersion 23
+
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+    }
+
+    signingConfigs {
+        googlePlay {
+            //Placeholder which gets automatically filled during project sync. Needs the right setting file.
+            //This settings is not in the source control, because it contains sensitive information.
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.googlePlay
+
+            archivesBaseName = "Callminder - " + defaultConfig.versionName + " - " + project.gitSha
+        }
+
+        debug {
+            applicationIdSuffix '.dev'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+/*
+ * All the signing stuff and external config getting.
+ */
+
+def getExternalProperties() {
+    //Get environment variable of keystore settings folder location.
+    def keyStorePath = System.getenv('Android_Keystore_Path')
+
+    //Name of the properties file
+    def propertiesFileName = 'Callminder.keyproperties'
+
+    def propsFile = file(keyStorePath + '/' + propertiesFileName)
+
+    def properties;
+    if (propsFile.exists()) {
+        properties = new Properties()
+        properties.load(new FileInputStream(propsFile))
+        properties.put('path', keyStorePath)
+
+    } else {
+        System.err.println("File " + propsFile.name + " for setup not available");
+    }
+
+    return properties
+}
+
+def setupSigning(properties) {
+    if (properties == null) {
+        System.err.println("Could not set signing config. No properties");
+        return;
+    }
+
+    def configName = 'googlePlay'
+
+    if (android.signingConfigs.hasProperty(configName)) {
+
+        //Android signing information
+        android.signingConfigs[configName].storeFile = file(properties['path'] + '/' + properties['storeFile'])
+        android.signingConfigs[configName].storePassword = properties['storePassword']
+        android.signingConfigs[configName].keyAlias = properties['keyAlias']
+        android.signingConfigs[configName].keyPassword = properties['keyPassword']
+    }
+}
+
+task setupSigning() {
+    def props = getExternalProperties();
+    setupSigning(props)
+}
+
+afterEvaluate { project ->
+
+    def preBuild = project.tasks.getByName("preBuild")
+    preBuild.dependsOn setupSigning
+
+}
+
+apply plugin: 'checkstyle'
+
+checkstyle {
+    configFile new File("${project.buildDir}/checkstyle.xml")
+    reportsDir new File("${project.buildDir}/outputs")
+    toolVersion "6.2"
+}
+
+preBuild.dependsOn('checkstyle')
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+
+    def configProps = ['proj.module.dir': buildDir]
+    configProperties configProps
+
+    //If you are offline and the checkstyle stuff was downloaded once you can comment the next line out
+    it.dependsOn 'downloadCheckstyleConfig'
+    classpath = files()
+}
+apply plugin: 'de.undercouch.download'
+import de.undercouch.gradle.tasks.download.Download
+
+task downloadCheckstyleConfig(type: Download) {
+    src([
+            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/checkstyle.xml',
+            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/suppressions.xml'
+    ])
+    dest buildDir
+    overwrite true
+    onlyIfNewer true
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.1.1'
+}
