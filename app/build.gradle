@@ -54,7 +54,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.googlePlay
 
-            archivesBaseName = "Callminder - " + defaultConfig.versionName + " - " + project.gitSha
+            archivesBaseName = "Callminder - " + defaultConfig.versionName + " - " + gitSha
         }
 
         debug {
