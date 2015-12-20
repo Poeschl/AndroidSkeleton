@@ -161,5 +161,7 @@ task downloadCheckstyleConfig(type: Download) {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:2.7.1'
+    compile "com.android.support:appcompat-v7:23.1.1"
 }
