@@ -1,221 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:columnCount="2"
-            android:padding="12dp"
-            tools:ignore="UselessParent|Overdraw">
+            android:background="@android:color/white">
 
+
+    <!-- Place where the section gets added -->
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_columnSpan="2"
-        android:layout_gravity="start|fill_horizontal"
-        android:orientation="horizontal">
+        android:id="@+id/section_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical|right"
-            android:orientation="vertical"
-            tools:ignore="RtlHardcoded">
+            android:layout_width="match_parent"
+            android:layout_gravity="start|fill_horizontal"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
 
-            <TextView
-                style="@style/Widget.DebugDrawer.Header.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:orientation="vertical"
+                tools:ignore="RtlHardcoded">
 
-            <TextView
-                style="@style/Widget.DebugDrawer.Header.Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/development_settings"/>
+                <TextView
+                    style="@style/Widget.DebugDrawer.Header.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"/>
+
+                <TextView
+                    style="@style/Widget.DebugDrawer.Header.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/development_settings"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:contentDescription="App Icon"
+                android:src="@mipmap/ic_launcher"
+                tools:ignore="HardcodedText"/>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:contentDescription="App Icon"
-            android:src="@mipmap/ic_launcher"
-            tools:ignore="HardcodedText"/>
     </LinearLayout>
 
-
-    <!-- USER INTERFACE SECTION -->
-
-    <TextView
-        style="@style/Widget.DebugDrawer.Header"
-        android:layout_width="0dp"
-        android:layout_columnSpan="2"
-        android:layout_gravity="start|fill_horizontal"
-        android:text="User Interface"
-        tools:ignore="HardcodedText"/>
-
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Scalpel"
-        tools:ignore="HardcodedText"/>
-
-    <Switch
-        android:id="@+id/debug_ui_scalpel"
-        style="@style/Widget.DebugDrawer.RowWidget"
-        android:layout_gravity="start|center_vertical"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Wireframe"
-        tools:ignore="HardcodedText"/>
-
-    <Switch
-        android:id="@+id/debug_ui_scalpel_wireframe"
-        style="@style/Widget.DebugDrawer.RowWidget"
-        android:layout_gravity="start|center_vertical"/>
-
-    <!-- BUILD INFORMATION SECTION -->
-
-    <TextView
-        style="@style/Widget.DebugDrawer.Header"
-        android:layout_width="0dp"
-        android:layout_columnSpan="2"
-        android:layout_gravity="start|fill_horizontal"
-        android:text="Build Information"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Name"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_build_name"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Code"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_build_code"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Git-SHA"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_build_sha"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Date"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_build_date"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <!-- DEVICE INFORMATION SECTION -->
-
-    <TextView
-        style="@style/Widget.DebugDrawer.Header"
-        android:layout_width="0dp"
-        android:layout_columnSpan="2"
-        android:layout_gravity="start|fill_horizontal"
-        android:text="Device Information"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Make"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_make"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Model"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_model"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Resolution"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_resolution"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Density"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_density"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="Release"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_release"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-    <TextView
-        style="@style/Widget.DebugDrawer.RowTitle"
-        android:layout_gravity="start|center_vertical"
-        android:text="API"
-        tools:ignore="HardcodedText"/>
-
-    <TextView
-        android:id="@+id/debug_device_api"
-        style="@style/Widget.DebugDrawer.RowValue"
-        android:layout_width="0dp"
-        android:layout_gravity="start|center_vertical|fill_horizontal"/>
-
-</GridLayout>
+</ScrollView>
