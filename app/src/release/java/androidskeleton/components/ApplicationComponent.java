@@ -1,13 +1,15 @@
 package androidskeleton.components;
 
 import androidskeleton.SkeletonApp;
+import androidskeleton.module.ReleaseUIModule;
 import androidskeleton.modules.ApplicationModule;
 import dagger.Component;
 
 @ApplicationScope
 @Component(
         modules = {
-                ApplicationModule.class
+                ApplicationModule.class,
+                ReleaseUIModule.class
         }
 )
 public interface ApplicationComponent extends BaseApplicationComponent {

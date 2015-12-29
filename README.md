@@ -8,3 +8,5 @@ Included features:
 + Local keystore support (the keystore and the credentials are not checked in)
 + checkstyle execution on release builds with own checkstyle config
 + git Hash and build time available via BuildConfig
++ Dagger 2.0.2 basic setup
++ Debug Drawer from early U2020 app of Jake Wharton
