@@ -1,10 +1,4 @@
-/*
- * Copyright (c) 2015 Markus Poeschl - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- *
- * Project: Callminder
- */
+import de.undercouch.gradle.tasks.download.Download
 
 buildscript {
 
@@ -20,6 +14,7 @@ def versionMinor = 1
 def versionPatch = 0
 
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
@@ -30,7 +25,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "de.poeschl.apps.callminder"
+        applicationId "de.poeschl.apps.androidskeleton"
         minSdkVersion 15
         targetSdkVersion 23
 
@@ -54,7 +49,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.googlePlay
 
-            archivesBaseName = "Callminder - " + defaultConfig.versionName + " - " + project.gitSha
+            archivesBaseName = project.getParent().name + " - " + defaultConfig.versionName + " - " + gitSha
         }
 
         debug {
@@ -67,16 +62,71 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 }
-/*
- * All the signing stuff and external config getting.
- */
+
+apply plugin: 'checkstyle'
+preBuild.dependsOn('checkstyle')
+checkstyle {
+    configFile new File("${project.buildDir}/checkstyle.xml")
+    reportsDir new File("${project.buildDir}/outputs")
+    toolVersion "6.2"
+}
+
+apply plugin: 'de.undercouch.download'
+
+afterEvaluate { project ->
+
+    def preBuild = project.tasks.getByName("preBuild")
+    preBuild.dependsOn setupSigning
+
+}
+
+dependencies {
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton.timber:timber:2.7.1'
+    compile "com.android.support:appcompat-v7:23.1.1"
+    compile 'com.google.dagger:dagger:2.0.2'
+
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+}
+
+task setupSigning() {
+    def props = getExternalProperties();
+    setupSigning(props)
+}
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+
+    def configProps = ['proj.module.dir': buildDir]
+    configProperties configProps
+
+    //If you are offline and the checkstyle stuff was downloaded once you can comment the next line out
+    it.dependsOn 'downloadCheckstyleConfig'
+    classpath = files()
+}
+
+task downloadCheckstyleConfig(type: Download) {
+    src([
+            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/checkstyle.xml',
+            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/suppressions.xml'
+    ])
+    dest buildDir
+    overwrite true
+    onlyIfNewer true
+}
 
 def getExternalProperties() {
     //Get environment variable of keystore settings folder location.
     def keyStorePath = System.getenv('Android_Keystore_Path')
 
     //Name of the properties file
-    def propertiesFileName = 'Callminder.keyproperties'
+    def propertiesFileName = project.getParent().name + '.keyproperties'
 
     def propsFile = file(keyStorePath + '/' + propertiesFileName)
 
@@ -109,57 +159,4 @@ def setupSigning(properties) {
         android.signingConfigs[configName].keyAlias = properties['keyAlias']
         android.signingConfigs[configName].keyPassword = properties['keyPassword']
     }
-}
-
-task setupSigning() {
-    def props = getExternalProperties();
-    setupSigning(props)
-}
-
-afterEvaluate { project ->
-
-    def preBuild = project.tasks.getByName("preBuild")
-    preBuild.dependsOn setupSigning
-
-}
-
-apply plugin: 'checkstyle'
-
-checkstyle {
-    configFile new File("${project.buildDir}/checkstyle.xml")
-    reportsDir new File("${project.buildDir}/outputs")
-    toolVersion "6.2"
-}
-
-preBuild.dependsOn('checkstyle')
-
-task checkstyle(type: Checkstyle) {
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-    exclude '**/R.java'
-    exclude '**/BuildConfig.java'
-
-    def configProps = ['proj.module.dir': buildDir]
-    configProperties configProps
-
-    //If you are offline and the checkstyle stuff was downloaded once you can comment the next line out
-    it.dependsOn 'downloadCheckstyleConfig'
-    classpath = files()
-}
-apply plugin: 'de.undercouch.download'
-import de.undercouch.gradle.tasks.download.Download
-
-task downloadCheckstyleConfig(type: Download) {
-    src([
-            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/checkstyle.xml',
-            'https://raw.githubusercontent.com/Poeschl/Android-Checkstyle/master/suppressions.xml'
-    ])
-    dest buildDir
-    overwrite true
-    onlyIfNewer true
-}
-
-dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
 }
