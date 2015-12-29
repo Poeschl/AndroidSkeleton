@@ -1,6 +1,8 @@
 package androidskeleton.modules;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidskeleton.SkeletonApp;
 import androidskeleton.components.ApplicationScope;
@@ -24,6 +26,12 @@ public class ApplicationModule {
     @ApplicationScope
     protected Application provideApplication() {
         return app;
+    }
+
+    @Provides
+    @ApplicationScope
+    protected SharedPreferences provideSharedPreferences() {
+        return app.getSharedPreferences(app.getPackageName(), Context.MODE_PRIVATE);
     }
 
 }

@@ -8,9 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="SkeletonApp">
+        android:name="androidskeleton.SkeletonApp">
 
-        <activity android:name="activities.MainActivity">
+        <activity android:name="androidskeleton.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

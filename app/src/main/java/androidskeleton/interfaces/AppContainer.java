@@ -12,7 +12,7 @@ public interface AppContainer {
     /**
      * An {@link AppContainer} which returns the normal activity content view.
      */
-    AppContainer DEFAULT = new AppContainer() {
+    AppContainer DEFAULT_CONTAINER = new AppContainer() {
         @Override
         public ViewGroup get(Activity activity) {
             return findById(activity, android.R.id.content);

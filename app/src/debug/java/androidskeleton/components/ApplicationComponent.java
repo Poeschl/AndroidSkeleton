@@ -1,13 +1,17 @@
 package androidskeleton.components;
 
 import androidskeleton.SkeletonApp;
+import androidskeleton.data.DebugPreferencesModule;
 import androidskeleton.modules.ApplicationModule;
+import androidskeleton.modules.DebugUIModule;
 import dagger.Component;
 
 @ApplicationScope
 @Component(
         modules = {
-                ApplicationModule.class
+                ApplicationModule.class,
+                DebugUIModule.class,
+                DebugPreferencesModule.class
         }
 )
 public interface ApplicationComponent extends BaseApplicationComponent {
