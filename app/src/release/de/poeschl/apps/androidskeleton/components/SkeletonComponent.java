@@ -1,4 +1,4 @@
-import de.poeschl.apps.androidskeleton.modules.SkeletonAppModule;
+import de.poeschl.apps.androidskeleton.modules.ApplicationModule;
 
 /**
  * This component is the bridge for the dependency injections for release builds.
@@ -8,7 +8,7 @@ import de.poeschl.apps.androidskeleton.modules.SkeletonAppModule;
 @AppScope
 @Component(
         modules = {
-                SkeletonAppModule.class
+                ApplicationModule.class
         }
 )
 public interface CallminderComponent extends BaseAppComponent {
@@ -19,7 +19,7 @@ public interface CallminderComponent extends BaseAppComponent {
 
         public static CallminderComponent init(CallminderApp app) {
             return DaggerCallminderComponent.builder()
-                    .skeletonAppModule(new SkeletonAppModule(app))
+                    .skeletonAppModule(new ApplicationModule(app))
                     .build();
         }
     }

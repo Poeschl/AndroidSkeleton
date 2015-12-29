@@ -3,21 +3,18 @@ package de.poeschl.apps.androidskeleton;
 import android.app.Application;
 import android.content.Context;
 
-import de.poeschl.apps.androidskeleton.components.SkeletonComponent;
+import de.poeschl.apps.androidskeleton.components.ApplicationComponent;
 import timber.log.Timber;
 
-/**
- * Created by Markus Pöschl on 20.12.2015.
- */
 public class SkeletonApp extends Application {
 
-    private SkeletonComponent component;
+    private ApplicationComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        component = SkeletonComponent.Initializer.init(this);
+        component = ApplicationComponent.Initializer.init(this);
 
         Timber.plant(new Timber.DebugTree());
 
@@ -27,7 +24,7 @@ public class SkeletonApp extends Application {
         return (SkeletonApp) context.getApplicationContext();
     }
 
-    public SkeletonComponent getComponent() {
+    public ApplicationComponent getComponent() {
         return component;
     }
 }

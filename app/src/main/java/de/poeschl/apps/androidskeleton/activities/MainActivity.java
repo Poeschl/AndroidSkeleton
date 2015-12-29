@@ -1,7 +1,7 @@
 package de.poeschl.apps.androidskeleton.activities;
 
 import android.app.Activity;
-import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -11,22 +11,21 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.poeschl.apps.androidskeleton.R;
 import de.poeschl.apps.androidskeleton.SkeletonApp;
-import de.poeschl.apps.androidskeleton.components.ContextComponent;
-import de.poeschl.apps.androidskeleton.components.SkeletonComponent;
+import de.poeschl.apps.androidskeleton.components.ActivityComponent;
+import de.poeschl.apps.androidskeleton.components.ApplicationComponent;
+import de.poeschl.apps.androidskeleton.components.DaggerActivityComponent;
 import de.poeschl.apps.androidskeleton.interfaces.HasComponent;
 
-/**
- * Created by Markus Pöschl on 20.12.2015.
- */
-public class MainActivity extends Activity implements HasComponent<ContextComponent> {
+public class MainActivity extends Activity implements HasComponent<ActivityComponent> {
 
+    //Only for testing
     @Inject
-    protected Application application;
+    protected Context context;
 
     @Bind(R.id.testText)
     protected TextView testText;
 
-    private ContextComponent activityComponent;
+    private ActivityComponent activityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,19 +38,18 @@ public class MainActivity extends Activity implements HasComponent<ContextCompon
 
         ButterKnife.bind(this);
 
-        testText.setText(application.getPackageName());
+        testText.setText(context.getPackageName());
     }
 
-    protected void onCreateComponent(SkeletonComponent appComponent) {
-        activityComponent = DaggerContextComponent.builder()
-                .androidskeleton(appComponent)
-
+    protected void onCreateComponent(ApplicationComponent appComponent) {
+        activityComponent = DaggerActivityComponent.builder()
+                .applicationComponent(appComponent)
                 .build();
         activityComponent.inject(this);
     }
 
     @Override
-    public ContextComponent getComponent() {
-        return null;
+    public ActivityComponent getComponent() {
+        return activityComponent;
     }
 }
