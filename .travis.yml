@@ -1,6 +1,12 @@
 language: android
 jdk: oraclejdk7
 
+sudo: false
+env:
+  global:
+    #set the timeout to 8 for getting the tests done
+    - ADB_INSTALL_TIMEOUT=10
+
 android:
   components:
     # Uncomment the lines below if you want to
