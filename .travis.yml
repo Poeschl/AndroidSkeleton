@@ -46,6 +46,7 @@ before_install:
   - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:22" --abi google_apis/armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
+  - android-wait-for-emulator
 
 install:
   - ./gradlew --version # show version and download Gradle Wrapper when is not present in cache
@@ -53,7 +54,6 @@ install:
   - ./gradlew assembleDebug
 
 before_script:
-  - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
 script: ./gradlew connectedCheck
