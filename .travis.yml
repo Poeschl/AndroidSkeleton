@@ -12,7 +12,7 @@ cache:
 env:
   global:
     #set the timeout to avoid ShellCommandUnresponsiveException
-    - ADB_INSTALL_TIMEOUT=15
+    - ADB_INSTALL_TIMEOUT=8
 
 android:
   components:
@@ -47,6 +47,8 @@ before_install:
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
   - android-wait-for-emulator
+  - sleep 30
+  - adb shell input keyevent 82 &
 
 install:
   - ./gradlew --version # show version and download Gradle Wrapper when is not present in cache
@@ -54,6 +56,6 @@ install:
   - ./gradlew assembleDebug
 
 before_script:
-  - adb shell input keyevent 82 &
+  - sleep 150
 
 script: ./gradlew connectedCheck
