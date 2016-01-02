@@ -1,4 +1,4 @@
-Android Skeleton
+Android Skeleton [![Build Status](https://travis-ci.org/Poeschl/AndroidSkeleton.svg?branch=master)](https://travis-ci.org/Poeschl/AndroidSkeleton)
 ================
 
 This is the stub for my Android Apps. It will be updated with time (hopefully).
