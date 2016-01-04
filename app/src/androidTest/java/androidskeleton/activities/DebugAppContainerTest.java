@@ -32,12 +32,33 @@ public class DebugAppContainerTest {
         //Todo: Better way of conditionally ignore tests
         Assume.assumeTrue("Skip because the debug drawer is not included in release builds", BuildConfig.DEBUG);
 
+        openDebugDrawer();
     }
 
     @Test
     public void testDebugDrawerExists() {
-        onView(withId(R.id.debug_activity_layout)).perform(DrawerActions.open(Gravity.END));
-
         onView(withText(R.string.development_settings)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testBuildSectionSetup() throws Exception {
+        onView(withId(R.id.debug_build_name)).check(matches(withText(BuildConfig.VERSION_NAME)));
+        onView(withId(R.id.debug_build_code)).check(matches(withText(Integer.toString(BuildConfig.VERSION_CODE))));
+        onView(withId(R.id.debug_build_sha)).check(matches(withText(BuildConfig.GIT_SHA)));
+    }
+
+    @Test
+    public void testDeviceInfoAvailable() throws Exception {
+        onView(withText("Device Information")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testScalpelInfoAvailable() throws Exception {
+        onView(withId(R.id.debug_ui_scalpel)).check(matches(isDisplayed()));
+        onView(withId(R.id.debug_ui_scalpel_wireframe)).check(matches(isDisplayed()));
+    }
+
+    private void openDebugDrawer() {
+        onView(withId(R.id.debug_activity_layout)).perform(DrawerActions.open(Gravity.END));
     }
 }
