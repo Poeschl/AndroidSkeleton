@@ -5,11 +5,13 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
-import org.junit.Ignore;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import apps.androidskeleton.BuildConfig;
 import apps.androidskeleton.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -25,8 +27,14 @@ public class DebugAppContainerTest {
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(
             MainActivity.class);
 
+    @Before
+    public void setUp() throws Exception {
+        //Todo: Better way of conditionally ignore tests
+        Assume.assumeTrue("Skip because the debug drawer is not included in release builds", BuildConfig.DEBUG);
+
+    }
+
     @Test
-    @Ignore
     public void testDebugDrawerExists() {
         onView(withId(R.id.debug_activity_layout)).perform(DrawerActions.open(Gravity.END));
 
