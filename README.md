@@ -9,4 +9,6 @@ Included features:
 + checkstyle execution on release builds with own checkstyle config
 + git Hash and build time available via BuildConfig
 + Dagger 2.0.2 basic setup
-+ Debug Drawer from early U2020 app of Jake Wharton
++ Debug Drawer from early U2020 app of Jake Wharton (modified)
++ automatic travis build
++ Sample tests with espresso for basic debug drawer

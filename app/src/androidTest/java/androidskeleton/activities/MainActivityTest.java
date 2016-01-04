@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import apps.androidskeleton.BuildConfig;
 import apps.androidskeleton.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -33,13 +34,17 @@ public class MainActivityTest {
      * the {@link ActivityTestRule#getActivity()} method.
      */
     @Rule
-    protected ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(
+    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(
             MainActivity.class);
 
     @Test
     public void testPackageString() {
-        // Type text and then press the button.
-        onView(withId(R.id.testText))
-                .check(matches(withText("de.poeschl.apps.androidskeleton")));
+
+        String packageString = "de.poeschl.apps.androidskeleton";
+        if (BuildConfig.DEBUG) {
+            packageString += ".dev";
+        }
+
+        onView(withId(R.id.testText)).check(matches(withText(packageString)));
     }
 }

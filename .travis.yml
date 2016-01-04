@@ -58,4 +58,6 @@ install:
 before_script:
   - sleep 150
 
-script: ./gradlew connectedCheck
+script:
+  - ./gradlew testDebugUnitTest
+  - ./gradlew connectedDebugAndroidTest
