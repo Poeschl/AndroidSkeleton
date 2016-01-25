@@ -1,6 +1,7 @@
 package androidskeleton.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.PowerManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 
 import java.util.ArrayList;
@@ -121,5 +123,9 @@ public class DebugAppContainer implements AppContainer {
                 power.newWakeLock(FULL_WAKE_LOCK | ACQUIRE_CAUSES_WAKEUP | ON_AFTER_RELEASE, "wakeup!");
         lock.acquire();
         lock.release();
+    }
+
+    static void requestRestart(Context context) {
+        ProcessPhoenix.triggerRebirth(context);
     }
 }
