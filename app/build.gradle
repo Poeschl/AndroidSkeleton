@@ -55,6 +55,8 @@ android {
         }
 
         debug {
+            archivesBaseName = project.getParent().name + " - " + defaultConfig.versionName
+
             applicationIdSuffix '.dev'
         }
     }
