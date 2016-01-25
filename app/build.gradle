@@ -88,7 +88,7 @@ dependencies {
     debugCompile 'com.jakewharton:process-phoenix:1.0.2'
 
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.jakewharton.timber:timber:2.7.1'
+    compile 'com.jakewharton.timber:timber:4.1.0'
     compile "com.android.support:appcompat-v7:23.1.1"
     compile 'com.google.dagger:dagger:2.0.2'
 
