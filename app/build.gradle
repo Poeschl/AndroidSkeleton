@@ -9,11 +9,6 @@ buildscript {
     }
 }
 
-// Manifest version information!
-def versionMajor = 1
-def versionMinor = 2
-def versionPatch = 0
-
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
@@ -32,7 +27,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
 
-        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch
+        versionCode versionMajor.toInteger() * 10000 + versionMinor.toInteger() * 1000 + versionPatch.toInteger()
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
