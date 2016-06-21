@@ -24,7 +24,7 @@ project.ext.set("gitSha", gitSha)
 //noinspection GroovyAssignabilityCheck
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     //noinspection GroovyAssignabilityCheck
     defaultConfig {

@@ -6,8 +6,7 @@ sudo: false
 
 cache:
   directories:
-    - ${HOME}/.gradle/wrapper/dists
-    - ${ANDROID_HOME}
+    - $HOME/.gradle
 
 env:
   global:
@@ -59,5 +58,5 @@ before_script:
   - sleep 150
 
 script:
-  - ./gradlew testDebugUnitTest
-  - ./gradlew connectedDebugAndroidTest
+  - ./gradlew -PdisablePreDex testDebugUnitTest
+  - ./gradlew -PdisablePreDex connectedDebugAndroidTest
