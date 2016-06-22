@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'de.undercouch:gradle-download-task:2.1.0'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     }
 }
 
@@ -19,7 +20,7 @@ project.ext.set("gitSha", gitSha)
 //noinspection GroovyAssignabilityCheck
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     //noinspection GroovyAssignabilityCheck
     defaultConfig {
@@ -57,6 +58,7 @@ android {
 
         debug {
             archivesBaseName = project.getParent().name + " - " + defaultConfig.versionName
+            testCoverageEnabled true
 
             applicationIdSuffix '.dev'
         }
@@ -67,6 +69,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+}
+
+apply plugin: 'jacoco-android'
+jacocoAndroidUnitTestReport {
+    excludes += ['**/*$ViewBinder*.*',
+                 '**/*_MembersInjector*.*',
+                 '**/*_Factory*.*']
+    print excludes
 }
 
 apply plugin: 'checkstyle'
