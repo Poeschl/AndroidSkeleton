@@ -3,6 +3,8 @@ package androidskeleton;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import androidskeleton.components.ApplicationComponent;
 import timber.log.Timber;
 
@@ -17,7 +19,7 @@ public class SkeletonApp extends Application {
         component = ApplicationComponent.Initializer.init(this);
 
         Timber.plant(new Timber.DebugTree());
-
+        LeakCanary.install(this);
     }
 
     public static SkeletonApp get(Context context) {

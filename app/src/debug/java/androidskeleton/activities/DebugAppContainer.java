@@ -1,6 +1,7 @@
 package androidskeleton.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.PowerManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.jakewharton.scalpel.ScalpelFrameLayout;
 
 import java.util.ArrayList;
@@ -43,6 +45,8 @@ public class DebugAppContainer implements AppContainer {
     @Bind(R.id.section_container)
     LinearLayout sectionContainer;
 
+    List<DebugDrawerSection> sections;
+
     private BooleanPreference scalpelEnabled;
     private BooleanPreference scalpelWireframeEnabled;
 
@@ -66,11 +70,23 @@ public class DebugAppContainer implements AppContainer {
         // Inject after inflating the drawer layout so its views are available to inject.
         ButterKnife.bind(this, activity);
 
-        //Build all the sections
-        final List<DebugDrawerSection> sections = new ArrayList<>();
+        initDrawerSections(activity);
+        drawDrawerSections(inflater);
+
+        riseAndShine(activity);
+        return debugLayoutFrame;
+    }
+
+    void initDrawerSections(Activity activity) {
+        sections = new ArrayList<>();
         sections.add(new ScalpelSection(scalpelEnabled, scalpelWireframeEnabled, debugLayoutFrame));
         sections.add(new DeviceInfoSection(activity));
         sections.add(new BuildSection());
+    }
+
+    void drawDrawerSections(LayoutInflater inflater) {
+
+        sectionContainer.removeAllViews();
 
         for (DebugDrawerSection section : sections) {
             View sectionView = inflater.inflate(R.layout.section_layout, null);
@@ -92,9 +108,6 @@ public class DebugAppContainer implements AppContainer {
                 }
             }
         });
-
-        riseAndShine(activity);
-        return debugLayoutFrame;
     }
 
     /**
@@ -102,7 +115,7 @@ public class DebugAppContainer implements AppContainer {
      * both of these conditions are already true. If you deployed from the IDE, however, this will
      * save you from hundreds of power button presses and pattern swiping per day!
      */
-    public static void riseAndShine(Activity activity) {
+    static void riseAndShine(Activity activity) {
         activity.getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
 
         PowerManager power = (PowerManager) activity.getSystemService(POWER_SERVICE);
@@ -110,5 +123,9 @@ public class DebugAppContainer implements AppContainer {
                 power.newWakeLock(FULL_WAKE_LOCK | ACQUIRE_CAUSES_WAKEUP | ON_AFTER_RELEASE, "wakeup!");
         lock.acquire();
         lock.release();
+    }
+
+    static void requestRestart(Context context) {
+        ProcessPhoenix.triggerRebirth(context);
     }
 }
