@@ -1,4 +1,4 @@
-Android Skeleton [![Build Status](https://travis-ci.org/Poeschl/AndroidSkeleton.svg?branch=master)](https://travis-ci.org/Poeschl/AndroidSkeleton)
+Android Skeleton [![Travis master](https://img.shields.io/travis/Poeschl/AndroidSkeleton/master.svg?maxAge=3600)](https://travis-ci.org/Poeschl/AndroidSkeleton) [![Coveralls](https://img.shields.io/coveralls/Poeschl/AndroidSkeleton/master.svg?maxAge=3600)](https://coveralls.io/github/Poeschl/AndroidSkeleton?branch=master)
 ================
 
 This is the stub for my Android Apps. It will be updated with time (hopefully).
