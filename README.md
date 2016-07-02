@@ -15,3 +15,5 @@ Included features:
 + [LeakCanary](https://github.com/square/leakcanary) to track memory leaks in all activities
 + [Timber](https://github.com/JakeWharton/timber) to replace android logging
 + [ProcessPhoenix](https://github.com/JakeWharton/ProcessPhoenix) for a restart with a small footprint
+* Travis Execution
+* Coveralls code coverage with JaCoCo
