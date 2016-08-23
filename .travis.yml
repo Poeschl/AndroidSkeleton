@@ -33,7 +33,7 @@ before_install:
  - chmod +x gradlew
 
 before_script:
-  - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$ANDROID_API_LEVEL --abi $ANDROID_ABI"
+  - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$ANDROID_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window -gpu off -data /home/travis/.android/avd/test.avd/userdata-qemu.im/userdata.img &
   - android-wait-for-emulator
   - sleep 30
