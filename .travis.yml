@@ -19,6 +19,7 @@ android:
     - build-tools-23.0.3
 
     - android-22
+    - android-23
 
     - extra-google-m2repository
     - extra-android-m2repository
@@ -40,9 +41,9 @@ before_script:
   - sleep 30
   - adb devices
   - adb shell input keyevent 82 &
+  - echo $ADB_INSTALL_TIMEOUT
 
 script:
-  - echo $ADB_INSTALL_TIMEOUT
   - ./gradlew -PdisablePreDex testDebugUnitTest connectedDebugAndroidTest
 
 after_script:
