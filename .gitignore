@@ -7,6 +7,4 @@
 /app/build
 /app/app.iml
 .captures
-/.idea/dictionaries
-/.idea/.name
-
+.idea
