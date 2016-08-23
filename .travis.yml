@@ -30,7 +30,11 @@ android:
       - 'android-sdk-license-.+'
 
 before_install:
- - chmod +x gradlew
+  - chmod +x gradlew
+
+after_install:
+  - echo $ADB_INSTALL_TIMEOUT
+  - android list targets
 
 before_script:
   - echo no | android create avd --force -n test -t "Google Inc.:Google APIs:"$ANDROID_API_LEVEL --abi $ANDROID_ABI
@@ -39,13 +43,9 @@ before_script:
   - sleep 30
   - adb devices
   - adb shell input keyevent 82 &
-  - echo $ADB_INSTALL_TIMEOUT
 
 script:
   - ./gradlew -PdisablePreDex testDebugUnitTest connectedDebugAndroidTest
 
 after_script:
   - ./gradlew -PdisablePreDex testDebugUnitTestCoverage coveralls
-
-after_failure:
-  - android list targets
