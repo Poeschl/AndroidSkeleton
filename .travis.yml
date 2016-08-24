@@ -44,6 +44,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
+  - ./gradlew checkstyle -PdisablePreDex
   - ./gradlew testDebugUnitTest -PdisablePreDex
 
   # Manual integration testing, see https://panavtec.me/continous-integration-on-android-with-travis-ci

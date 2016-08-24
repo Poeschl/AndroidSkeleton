@@ -88,6 +88,10 @@ checkstyle {
     toolVersion "6.2"
 }
 
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/jacoco/testDebugUnitTestCoverage/jacocoRootReport.xml"
+}
+
 apply plugin: 'de.undercouch.download'
 
 afterEvaluate { project ->
