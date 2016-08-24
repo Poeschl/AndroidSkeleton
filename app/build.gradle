@@ -81,7 +81,7 @@ android {
 }
 
 apply plugin: 'checkstyle'
-preBuild.dependsOn('checkstyle')
+check.dependsOn('checkstyle')
 checkstyle {
     configFile new File("${project.buildDir}/checkstyle.xml")
     reportsDir new File("${project.buildDir}/outputs")
