@@ -11,7 +11,8 @@ cache:
 
 env:
   global:
-    - ANDROID_API_LEVEL=24
+    - ANDROID_API_LEVEL=23
+    - ANDROID_API_LEVEL_EMULATOR=24
     - ANDROID_ABI=default/armeabi-v7a
     - ANDROID_BUILD_TOOLS=24.0.1
     - ADB_INSTALL_TIMEOUT=10 #minutes
@@ -23,16 +24,18 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS
 
     - android-$ANDROID_API_LEVEL
+    - android-$ANDROID_API_LEVEL_EMULATOR
 
     - extra-google-m2repository
     - extra-android-m2repository
 
+    - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL_EMULATOR
     #- addon-google_apis-google-$ANDROID_API_LEVEL
     #- sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
-    - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL
 
   licenses:
       - 'android-sdk-license-.+'
+      - 'android-sdk-preview-license-.+'
 
 before_install:
   - chmod +x gradlew
@@ -42,7 +45,7 @@ before_install:
   - android list targets
 
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi $ANDROID_ABI
+  - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL_EMULATOR --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window -gpu off -data /home/travis/.android/avd/test.avd/userdata-qemu.im/userdata.img &
   - android-wait-for-emulator
   - adb devices
