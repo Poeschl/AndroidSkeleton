@@ -32,7 +32,7 @@ android:
 
 before_install:
   - chmod +x gradlew
-  - chmod +x -R scripts
+  - chmod +x .scripts/launchInstrumentation.sh
   - echo $ADB_INSTALL_TIMEOUT
   - android list targets
 
