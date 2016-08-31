@@ -51,13 +51,13 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew checkstyle -PdisablePreDex
-  - ./gradlew testDebugUnitTest -PdisablePreDex
+  - ./gradlew checkstyle
+  - ./gradlew testDebugUnitTest
 
   # Manual integration testing, see https://panavtec.me/continous-integration-on-android-with-travis-ci
-  - ./gradlew assembleDebug assembleDebugAndroidTest -PdisablePreDex
+  - ./gradlew assembleDebug assembleDebugAndroidTest
   - find app/build/outputs/apk -name "*debug.apk*" -exec adb install -r {} \; -o -name "*androidTest*" -exec adb install -r {} \;
   - .scripts/launchInstrumentation.sh de.poeschl.apps.androidskeleton.dev.test android.support.test.runner.AndroidJUnitRunner
 
 after_script:
-  - ./gradlew testDebugUnitTestCoverage coveralls -PdisablePreDex
+  - ./gradlew testDebugUnitTestCoverage coveralls
