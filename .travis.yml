@@ -40,12 +40,12 @@ android:
 before_install:
   - chmod +x gradlew
   - chmod +x .scripts/launchInstrumentation.sh
+  - chmod +x .scripts/createEmulator.sh
   - echo $ADB_INSTALL_TIMEOUT
   - android list targets
 
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL_EMULATOR --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window -gpu off -data /home/travis/.android/avd/test.avd/userdata-qemu.im/userdata.img &
+  - .scripts/createEmulator.sh android-$ANDROID_API_LEVEL_EMULATOR $ANDROID_ABI
   - android-wait-for-emulator
   - adb devices
   - adb shell input keyevent 82 &
