@@ -55,11 +55,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.googlePlay
 
-            archivesBaseName = project.getParent().name + " - " + defaultConfig.versionName + " - " + gitSha
+            archivesBaseName = project.getParent().name + "-" + defaultConfig.versionName + " - " + gitSha
         }
 
         debug {
-            archivesBaseName = project.getParent().name + " - " + defaultConfig.versionName
+            archivesBaseName = project.getParent().name + "-" + defaultConfig.versionName
             testCoverageEnabled true
 
             applicationIdSuffix '.dev'
